@@ -1,0 +1,16 @@
+config:
+  # mandatory - folder with images
+  sourse: 
+    value: '.sourse/first/sourse'
+    example: 'path/to/folder/'
+
+  # optional - path and name of resulting file
+  # leave value empty ('') to save file near sourse folder with name output.psd
+  destination: 
+    value: ''
+    example: 'path/to/folder/file.psd'
+
+  # mandatory - sample psd file with required parameters
+  template: 
+    value: '.sourse/sample.psd'
+    example: 'C:/user/user/sample.psd'
