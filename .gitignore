@@ -1,3 +1,7 @@
-.sourse
-.vscode
-**/__pycache__
+.sourse/
+.vscode/
+**/__pycache__/
+config.z.yaml
+
+build/
+main.spec
