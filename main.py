@@ -1,6 +1,5 @@
 """Startup point"""
 
-from http.server import executable
 import sys
 from os import listdir
 import shutil
@@ -23,9 +22,9 @@ def validate_config(config: Config) -> None:
     """Validate configuration check for existance"""
 
     requirements = [
-        (config.sourse.exists(), "specified sourse directory does not exist"),
-        (config.sourse.is_dir(), "specified sourse is not a directory"),
-        (lambda: len(listdir(config.sourse)) > 0, "sourse directory is empty"),
+        (config.source.exists(), "specified sourse directory does not exist"),
+        (config.source.is_dir(), "specified sourse is not a directory"),
+        (lambda: len(listdir(config.source)) > 0, "sourse directory is empty"),
         #
         (config.destination.parents[0].exists(), "specified destination folder does not exist"),
         (config.destination.parents[0].is_dir(), "specified destination is not a directory"),
@@ -47,7 +46,7 @@ def generate_file(config: Config) -> None:
     srv = PsdService(config.template, config.destination)
 
     shutil.copyfile(config.template, config.destination)
-    srv.populate(file, config.sourse, True)
+    srv.populate(file, config.source, config.precise)
 
 
 def main():
