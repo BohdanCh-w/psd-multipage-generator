@@ -28,7 +28,7 @@ class Config:
             with open(path, "r", encoding="utf-8") as f:
                 data = yaml.safe_load(f)["config"]
 
-                for key in (self.__srs, self.__dst, self.__tpl, self.__prc):
+                for key in (self.__srs, self.__tpl, self.__prc):
                     if key not in data:
                         raise KeyError(f"{key} pararmeter is missing")
                     if "value" not in data[key]:
@@ -37,6 +37,10 @@ class Config:
                 self.source = Path(data[self.__srs]["value"])
                 self.template = Path(data[self.__tpl]["value"])
                 self.precise = data[self.__prc]["value"]
+
+                if data.get(self.__dst) is None:
+                    self.destination = self.source.parents[0] / "output.psd"
+                    return
 
                 if data[self.__dst]["value"] != "":
                     self.destination = Path(data[self.__dst]["value"])

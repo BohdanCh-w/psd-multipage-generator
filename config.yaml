@@ -6,7 +6,7 @@ config:
     example: 'path/to/folder/'
 
   # optional - path and name of resulting file
-  # leave value empty ('') to save file near source folder with name output.psd
+  # delete or leave empty ('') to save file near source folder with name output.psd
   destination: 
     value: ''
     type: path
