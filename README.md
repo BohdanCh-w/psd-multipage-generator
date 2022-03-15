@@ -8,7 +8,7 @@
 ## How to use
 
 - you must have installed Adobe Photoshop. (Tested with Photoshop 2021)
-- download program
+- [download program](https://github.com/Bohdan-TheOne/PsdCompiler/releases)
   - download executable and create or copy config.yaml file. Place them in same directory 
   - download source and execute with python3
 - create referenced file (*.psd). This will set main options for resulting file (size, colormode, resolution).
