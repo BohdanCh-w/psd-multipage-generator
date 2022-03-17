@@ -20,7 +20,7 @@
 
 ## Configuration
 
- currenly file must have next structure. This will be changed in future versions
+currenly template file must have next structure. This will be changed in future versions
 ```
 page (group)
 |--- text (group)
