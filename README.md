@@ -20,6 +20,14 @@
 
 ## Configuration
 
+ currenly file must have next structure. This will be changed in future versions
+```
+page (group)
+|--- text (group)
+|--- clean (clear layer)
+|--- img (clear layer)
+```
+
 program is configured via config.yaml which has such structure:
 ```
 config:
