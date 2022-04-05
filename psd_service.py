@@ -23,6 +23,12 @@ class PsdService:
         else:
             self.__populate_precise(file, sourse)
 
+    @staticmethod
+    def __compare_size(size1, size2):
+        size1 = tuple(map(round, size1))
+        size2 = tuple(map(round, size2))
+        return size1 == size2
+
     def __copy_file_contents_to_clipboard(self, path, size=None):
         doc = self.app.Open(path)
         doc.Layers[0].Copy()
@@ -30,7 +36,7 @@ class PsdService:
         ret = True
         if size is not None:
             actual_size = (doc.width, doc.height)
-            ret = (size == actual_size, actual_size)
+            ret = (self.__compare_size(size, actual_size), actual_size)
 
         doc.Close(self.SILENT_CLOSE)
         return ret
