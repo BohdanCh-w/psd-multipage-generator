@@ -6,7 +6,6 @@ import yaml
 
 class Config:
     """App configuration"""
-
     __srs = "source"
     __dst = "destination"
     __tpl = "template"
@@ -23,7 +22,6 @@ class Config:
 
     def read_from_file(self, path: str) -> None:
         """Read configuration from file specified by path"""
-
         try:
             with open(path, "r", encoding="utf-8") as f:
                 data = yaml.safe_load(f)["config"]
@@ -47,12 +45,10 @@ class Config:
                 else:
                     self.destination = self.source.parents[0] / "output.psd"
 
-        except FileNotFoundError:
-            print("Configuration file not found")
-            exit(1)
+        except FileNotFoundError as err:
+            raise FileNotFoundError("Configuration file not found") from err
         except KeyError as err:
-            print("Bad configuration file - key is missing : " + str(err))
-            exit(1)
+            raise KeyError("Bad configuration file") from err
 
         if self.destination is None:
             self.destination = self.source.parents[0]

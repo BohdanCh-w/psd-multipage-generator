@@ -7,20 +7,18 @@ from config import Config
 from psd_service import PsdService
 
 
-def validate(condition: bool, error: str) -> bool:
+def validate(condition: bool, error: str) -> None:
     """Validate condition"""
-
     if callable(condition):
         condition = condition()
-    if not condition:
-        print("Error: ", error)
-        return False
-    return True
 
+    if condition:
+        return
+
+    raise ValueError(f"Error: {error}")
 
 def validate_config(config: Config) -> None:
     """Validate configuration check for existance"""
-
     requirements = [
         (config.source.exists(), "specified sourse directory does not exist"),
         (config.source.is_dir(), "specified sourse is not a directory"),
@@ -35,13 +33,11 @@ def validate_config(config: Config) -> None:
     ]
 
     for req in requirements:
-        if not validate(req[0], req[1]):
-            exit(1)
+        validate(req[0], req[1])
 
 
 def generate_file(config: Config) -> None:
     """Use Psd Service to generate output file"""
-
     file = str(config.destination.resolve())
     srv = PsdService(config.template, config.destination)
 
@@ -51,7 +47,6 @@ def generate_file(config: Config) -> None:
 
 def main():
     """Main function"""
-
     config_file = sys.argv[1] if len(sys.argv) > 1 else "config.yaml"
     config = Config(config_file)
     validate_config(config)
