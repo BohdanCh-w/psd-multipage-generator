@@ -1,26 +1,13 @@
-config:
-  # mandatory - folder with images
-  source: 
-    value: '.source/first/source'
-    type: path
-    example: 'path/to/folder/'
+# mandatory - folder with images
+source: '.source/first/source'
 
-  # optional - path and name of resulting file
-  # delete or leave empty ('') to save file near source folder with name output.psd
-  destination: 
-    value: ''
-    type: path
-    example: 'path/to/folder/file.psd'
+# optional - path and name of resulting file
+# delete or leave empty ('') to save file near source folder with name output.psd
+destination: 'path/to/folder/file.psd'
 
-  # mandatory - sample psd file with required parameters
-  template: 
-    value: '.source/sample.psd'
-    type: path
-    example: 'C:/user/user/sample.psd'
+# mandatory - sample psd file with required parameters
+template: 'C:/user/user/sample.psd'
 
-  # mandatory - if true  - generate separate files for images that have different size
-  #             if false - crop images to specified sample
-  precise: 
-    value: true
-    type: boolean
-    example: false
+# mandatory - if true  - generate separate files for images that have different size
+#             if false - crop images to specified sample
+precise: false
