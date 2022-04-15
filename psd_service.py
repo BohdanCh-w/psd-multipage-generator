@@ -1,7 +1,7 @@
 """Adobe Photoshop Service"""
-from os import listdir
 import shutil
 import win32com.client
+from helpers import get_images, compare_size
 
 
 class PsdService:
@@ -20,12 +20,6 @@ class PsdService:
         else:
             self.__populate_precise(file, sourse)
 
-    @staticmethod
-    def __compare_size(size1: tuple[float], size2: tuple[float]) -> bool:
-        size1 = tuple(map(round, size1))
-        size2 = tuple(map(round, size2))
-        return size1 == size2
-
     def __copy_file_contents_to_clipboard(self, path: str, size=None):
         doc = self.app.Open(path)
         doc.Layers[0].Copy()
@@ -33,7 +27,7 @@ class PsdService:
         ret = True
         if size is not None:
             actual_size = (doc.width, doc.height)
-            ret = (self.__compare_size(size, actual_size), actual_size)
+            ret = (compare_size(size, actual_size), actual_size)
 
         doc.Close(self.__SILENT_CLOSE)
         return ret
@@ -69,7 +63,7 @@ class PsdService:
     def __populate_easy_mode(self, file: str, sourse: str):
         self.app.Open(file)
         doc = self.app.Application.ActiveDocument
-        images = listdir(sourse)
+        images = get_images(sourse)
         doc.ActiveLayer = doc.Layers[0]
 
         for _ in range(1, len(images)):
@@ -96,7 +90,7 @@ class PsdService:
     def __populate_precise(self, file: str, sourse: str):
         self.app.Open(file)
         doc = self.app.Application.ActiveDocument
-        images = listdir(sourse)
+        images = get_images(sourse)
         doc.ActiveLayer = doc.Layers[0]
         size = (doc.width, doc.height)
 

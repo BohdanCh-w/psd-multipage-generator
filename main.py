@@ -5,17 +5,7 @@ from os import listdir
 import shutil
 from config import Config
 from psd_service import PsdService
-
-
-def validate(condition: bool, error: str) -> None:
-    """Validate condition"""
-    if callable(condition):
-        condition = condition()
-
-    if condition:
-        return
-
-    raise ValueError(f"Error: {error}")
+from helpers import validate
 
 def validate_config(config: Config) -> None:
     """Validate configuration check for existance"""
