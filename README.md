@@ -45,12 +45,12 @@ config:
     type: boolean
 ```
 
-| option      | description                                                                        | type          | required |
-| ----------- | ---------------------------------------------------------------------------------- | ------------- | -------- |
-| source      | folder that contains images, pages in output would be named accordingly            | path (string) | Yes      |
-| destination | path and name of resulting file. save file near source folder with name output.psd | path (string) | No       |
-| template    | sample file with basic photoshop document configuration                            | path (string) | Yes      |
-| precise     | generate separate files for images that have different size                        | boolean       | Yes      |
+| option      | description                                                                    | type          | required |
+| ----------- | ------------------------------------------------------------------------------ | ------------- | -------- |
+| source      | folder that contains images, pages in output would be named accordingly        | path (string) | Yes      |
+| destination | path to resulting file. Default - file near source folder with name output.psd | path (string) | No       |
+| template    | sample file with basic photoshop document configuration                        | path (string) | Yes      |
+| precise     | generate separate files for images that have different size                    | boolean       | Yes      |
 
 ---
 <br/>
