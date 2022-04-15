@@ -3,7 +3,7 @@ from os import listdir
 from os.path import join, isdir
 
 
-image_formats = ('png', 'jpg', 'jpeg', 'webp')
+image_formats = ('png', 'jpg', 'jpeg')
 
 
 def get_images(dir: str) -> list[str]:
