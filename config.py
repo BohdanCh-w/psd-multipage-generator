@@ -11,7 +11,7 @@ class Config:
     __tpl = "template"
     __prc = "precise"
 
-    def __init__(self, path: str = None):
+    def __init__(self, path: str=None):
         if path is None:
             self.source = None
             self.destination = None

@@ -1,5 +1,4 @@
 """Adobe Photoshop Service"""
-
 from os import listdir
 import shutil
 import win32com.client
@@ -7,29 +6,27 @@ import win32com.client
 
 class PsdService:
     """Implement Adobe Photoshop API"""
+    __SILENT_CLOSE = 2
 
-    SILENT_CLOSE = 2
-
-    def __init__(self, sample="", destination=""):
+    def __init__(self, sample :str, destination: str=""):
         self.app = win32com.client.Dispatch("Photoshop.Application")
         self.sample = sample
         self.destination = destination
 
     def populate(self, file: str, sourse: str, flexible: bool) -> None:
         """Generate psd"""
-
         if not flexible:
             self.__populate_easy_mode(file, sourse)
         else:
             self.__populate_precise(file, sourse)
 
     @staticmethod
-    def __compare_size(size1, size2):
+    def __compare_size(size1: tuple[float], size2: tuple[float]) -> bool:
         size1 = tuple(map(round, size1))
         size2 = tuple(map(round, size2))
         return size1 == size2
 
-    def __copy_file_contents_to_clipboard(self, path, size=None):
+    def __copy_file_contents_to_clipboard(self, path: str, size=None):
         doc = self.app.Open(path)
         doc.Layers[0].Copy()
 
@@ -38,10 +35,10 @@ class PsdService:
             actual_size = (doc.width, doc.height)
             ret = (self.__compare_size(size, actual_size), actual_size)
 
-        doc.Close(self.SILENT_CLOSE)
+        doc.Close(self.__SILENT_CLOSE)
         return ret
 
-    def __create_layer_from_file(self, doc, layer, path):
+    def __create_layer_from_file(self, doc, layer, path: str):
         self.__copy_file_contents_to_clipboard(path)
 
         doc.ActiveLayer = layer
@@ -66,7 +63,7 @@ class PsdService:
             doc.Paste()
 
             doc.Save()
-            doc.Close(self.SILENT_CLOSE)
+            doc.Close(self.__SILENT_CLOSE)
             return False
 
     def __populate_easy_mode(self, file: str, sourse: str):
@@ -94,7 +91,7 @@ class PsdService:
         self.app.ExecuteAction(self.app.StringIDToTypeID("collapseAllGroupsEvent"))
 
         doc.Save()
-        doc.Close(self.SILENT_CLOSE)
+        doc.Close(self.__SILENT_CLOSE)
 
     def __populate_precise(self, file: str, sourse: str):
         self.app.Open(file)
@@ -123,4 +120,4 @@ class PsdService:
         self.app.ExecuteAction(self.app.StringIDToTypeID("collapseAllGroupsEvent"))
 
         doc.Save()
-        doc.Close(self.SILENT_CLOSE)
+        doc.Close(self.__SILENT_CLOSE)
