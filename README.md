@@ -30,19 +30,10 @@ page (group)
 
 program is configured via config.yaml which has such structure:
 ```
-config:
-  source: 
-    value: '.source/first/source'
-    type: path
-  destination: 
-    value: ''
-    type: path
-  template: 
-    value: '.source/sample.psd'
-    type: path
-  precise: 
-    value: true
-    type: boolean
+source: 'path/to/project/images'
+destination: 'path/to/project/result.psd'
+template: 'C:/user/user/sample.psd'
+precise: false
 ```
 
 | option      | description                                                                    | type          | required |
