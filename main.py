@@ -2,9 +2,8 @@
 
 import sys
 from os import listdir
-import shutil
 from config import Config
-from psd_service import PsdService
+import new_service
 from helpers import validate
 
 def validate_config(config: Config) -> None:
@@ -28,11 +27,8 @@ def validate_config(config: Config) -> None:
 
 def generate_file(config: Config) -> None:
     """Use Psd Service to generate output file"""
-    file = str(config.destination.resolve())
-    srv = PsdService(config.template, config.destination)
-
-    shutil.copyfile(config.template, config.destination)
-    srv.populate(file, config.source, config.precise)
+    srv = new_service.PsdService(new_service.new_photoshop_app())
+    srv.generate_file(config.source, config.destination, config.template, config.precise)
 
 
 def main():

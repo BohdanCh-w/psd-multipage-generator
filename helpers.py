@@ -1,21 +1,15 @@
 '''Helper functions'''
-from os import listdir
-from os.path import join, isdir
+from pathlib import Path
 
 
 image_formats = ('png', 'jpg', 'jpeg')
 
+def get_img_pathes(dir: Path) -> list[Path]:
+    '''Returns sorted list of images inside directory'''
+    def is_image(file: Path):
+        return file.suffix.lstrip('.') in image_formats
 
-def get_images(dir: str) -> list[str]:
-    '''Get sorted list of images in directory'''
-    def is_image(file):
-        return file.split('.')[-1] in image_formats
-
-    def is_file(file):
-        return not isdir(join(dir, file))
-
-    return list(filter(lambda x: is_image(x) and is_file(x), listdir(dir)))
-
+    return list(filter(lambda x: is_image(x) and not x.is_dir(), dir.glob('*')))
 
 def compare_size(size1: tuple[float], size2: tuple[float]) -> bool:
     '''Compare floats converted to ints'''
