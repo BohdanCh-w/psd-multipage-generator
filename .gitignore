@@ -1,8 +1,2 @@
-.source/
-.vscode/
 **/__pycache__/
-config.z.yaml
-
-build/
-dist/
-main.spec
+bin/

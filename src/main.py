@@ -3,7 +3,7 @@
 import sys
 from os import listdir
 from config import Config
-import new_service
+from psd import PsdService, new_photoshop_app
 from helpers import validate
 
 def validate_config(config: Config) -> None:
@@ -27,7 +27,7 @@ def validate_config(config: Config) -> None:
 
 def generate_file(config: Config) -> None:
     """Use Psd Service to generate output file"""
-    srv = new_service.PsdService(new_service.new_photoshop_app())
+    srv = PsdService(new_photoshop_app())
     srv.generate_file(config.source, config.destination, config.template, config.precise)
 
 

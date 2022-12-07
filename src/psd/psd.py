@@ -1,43 +1,15 @@
 """Adobe Photoshop Service"""
 import shutil
 from pathlib import Path
-from typing import Self
 import win32com.client
 from helpers import get_img_pathes
-from protocols import *
-from dimentions import Dimensions
+from .service import ApplicationWrapper, Document, Layer, CloseCode
+from .entities import Dimensions, PsdDocument
 
 
 def new_photoshop_app() -> ApplicationWrapper:
     '''Opens Photoshop and returns its descriptor'''
     return win32com.client.Dispatch("Photoshop.Application")
-
-class PsdDocument:
-    '''extened document class'''
-    doc: Document
-    sample_layer: Layer
-    location: Path
-    dimensions: Dimensions
-
-    def __init__(self, doc: Document, sample_layer: Layer = None, location: Path = None):
-        self.doc = doc
-        self.sample_layer = sample_layer
-        self.location = location
-        self.dimensions = Dimensions(doc.width, doc.height)
-
-    @staticmethod
-    def new_from_sample(app: ApplicationWrapper, sample: Path, destination: Path, dimensions: Dimensions = None) -> Self:
-        '''create new document'''
-        shutil.copyfile(sample, destination)
-
-        app.Open(str(destination))
-        doc = app.Application.ActiveDocument
-        doc.ActiveLayer = doc.Layers[0]
-
-        if dimensions is not None:
-            doc.ResizeCanvas(dimensions.width, dimensions.height)
-
-        return PsdDocument(doc, doc.ActiveLayer, destination)
 
 class PsdService:
     '''Implement Adobe Photoshop API'''

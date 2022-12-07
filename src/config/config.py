@@ -59,12 +59,8 @@ class Config:
 
         self.source = Path(data[self.__srs])
         self.template = Path(data[self.__tpl])
-        self.precise = data[self.__prc]
+        self.destination = Path(data.get(self.__dst, self.source.parent))
+        self.precise = data.get(self.__prc, False)
 
-        if not data.get(self.__dst):
-            self.destination = self.source.parents[0] / 'output.psd'
-        else:
-            self.destination = Path(data[self.__dst])
-
-            if self.destination.is_dir():
-                self.destination /= self.source.stem + '.psd'
+        if self.destination.is_dir():
+            self.destination /= self.source.name + '.psd'
