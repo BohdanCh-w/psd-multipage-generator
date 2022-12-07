@@ -25,7 +25,7 @@ class Config:
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 data: dict = yaml.safe_load(f)
-                if 'config' in data.keys():
+                if 'config' in data:
                     self._parse_config_v1(data)
                 else:
                     self._parse_config_v2(data)
@@ -65,3 +65,6 @@ class Config:
             self.destination = self.source.parents[0] / 'output.psd'
         else:
             self.destination = Path(data[self.__dst])
+
+            if self.destination.is_dir():
+                self.destination /= self.source.stem + '.psd'

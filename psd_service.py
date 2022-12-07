@@ -53,7 +53,12 @@ class PsdService:
 
             doc.ResizeCanvas(size[0], size[1])
             doc.Layers[0].Name = img_name
-            doc.ActiveLayer = doc.Layers[0].Layers[2]
+            for layer in doc.Layers[0].Layers:
+                if layer.Name == 'img':
+                    doc.ActiveLayer = layer
+                    break
+            else:
+                doc.ActiveLayer = doc.Layers[0].Layers[2]
             doc.Paste()
 
             doc.Save()
@@ -66,7 +71,9 @@ class PsdService:
         images = get_images(sourse)
         doc.ActiveLayer = doc.Layers[0]
 
-        for _ in range(1, len(images)):
+        stuct = [layer.Name for layer in doc.Layers[0].Layers]
+
+        for _ in range(1, len(images)): # one already exist
             doc.ActiveLayer.Duplicate()
 
         for i, img in enumerate(images):
@@ -74,11 +81,19 @@ class PsdService:
             imgname = "".join(img.split(".")[:-1])
             layer.Name = imgname
 
-            layer.Layers[0].Name = "text"
-            layer.Layers[1].Name = "clean"
-            layer.Layers[2].Name = imgname
+            img_layer = None
+            for j, l in enumerate(layer.Layers):
+                if stuct[j] == 'img':
+                    img_layer = l
+                else:
+                    l.Name = stuct[j]
 
-            self.__create_layer_from_file(doc, layer.Layers[2], (sourse / img).resolve())
+            if img_layer is None:
+                img_layer = layer.Layers[2]
+
+            img_layer.Name = imgname
+
+            self.__create_layer_from_file(doc, img_layer, (sourse / img).resolve())
             layer.Visible = False
 
         doc.Layers[0].Visible = True
