@@ -1,4 +1,4 @@
-'''Helper functions'''
+'''files helper functions'''
 from pathlib import Path
 
 
@@ -10,16 +10,3 @@ def get_img_pathes(dir: Path) -> list[Path]:
         return file.suffix.lstrip('.') in image_formats
 
     return list(filter(lambda x: is_image(x) and not x.is_dir(), dir.glob('*')))
-
-def validate(condition: bool, error: str, panic: bool=True) -> None:
-    '''Validate condition'''
-    if callable(condition):
-        condition = condition()
-
-    if condition:
-        return True
-
-    if panic:
-        raise ValueError(f'Error: {error}')
-
-    return False

@@ -2,7 +2,7 @@
 import shutil
 from pathlib import Path
 import win32com.client
-from helpers import get_img_pathes
+from helpers import get_img_pathes, compact_str_list
 from .service import ApplicationWrapper, Document, Layer, CloseCode
 from .entities import Dimensions, PsdDocument
 
@@ -60,7 +60,7 @@ class PsdService:
             if Dimensions(dim[0], dim[1]) == main_dim:
                 continue
 
-            shutil.move(psd.location, psd.location.parent / f'{save_name}-({",".join(layer_names)}).psd')
+            shutil.move(psd.location, psd.location.parent / f'{save_name}-({compact_str_list(*layer_names)}).psd')
 
     def _create_layer_from_clipboard(self, doc: Document, name: str, sample: Layer) -> Layer:
         struct = self._get_shallow_struct(sample)
