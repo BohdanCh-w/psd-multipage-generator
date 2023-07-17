@@ -4,6 +4,11 @@ from typing import Protocol, Self
 
 class Layer(Protocol):
     '''Photoshop layer'''
+    Name: str
+    name: str
+    Visible: bool
+    Layers: list[Self]
+
     def Duplicate(self) -> Self:
         '''Duplicate layer and return new'''
         ...
@@ -14,19 +19,4 @@ class Layer(Protocol):
 
     def Copy(self) -> None:
         '''Copy content of current layer to clipboard'''
-        ...
-
-    @property
-    def Name(self) -> str:
-        '''Layer name'''
-        ...
-
-    @property
-    def Visible(self) -> bool:
-        '''Whether layer is visible'''
-        ...
-
-    @property
-    def Layers(self) -> list[Self]:
-        '''List of inner layers'''
         ...

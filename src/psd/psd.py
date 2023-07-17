@@ -2,6 +2,7 @@
 import shutil
 from pathlib import Path
 import win32com.client
+from typing import cast
 from helpers import get_img_pathes, compact_str_list
 from .service import ApplicationWrapper, Document, Layer, CloseCode
 from .entities import Dimensions, PsdDocument
@@ -9,7 +10,8 @@ from .entities import Dimensions, PsdDocument
 
 def new_photoshop_app() -> ApplicationWrapper:
     '''Opens Photoshop and returns its descriptor'''
-    return win32com.client.Dispatch("Photoshop.Application")
+    return cast(ApplicationWrapper, win32com.client.Dispatch("Photoshop.Application"))
+
 
 class PsdService:
     '''Implement Adobe Photoshop API'''
@@ -22,7 +24,7 @@ class PsdService:
         main_doc: PsdDocument = PsdDocument.new_from_sample(self.app, sample, destination)
         images = get_img_pathes(source)
 
-        documents: dict[tuple[int,int], PsdDocument] = {}
+        documents: dict[tuple[int, int], PsdDocument] = {}
         documents[main_doc.dimensions.dims] = main_doc
 
         for img in images:
@@ -43,7 +45,7 @@ class PsdService:
 
         self._save_documents(documents, main_doc.dimensions, destination.stem)
 
-    def _save_documents(self, docs: dict[tuple[int,int], PsdDocument], main_dim: Dimensions, save_name: str) -> None:
+    def _save_documents(self, docs: dict[tuple[int, int], PsdDocument], main_dim: Dimensions, save_name: str) -> None:
         for dim, psd in docs.items():
             self.app.Application.ActiveDocument = psd.doc
             self.app.ExecuteAction(self.app.StringIDToTypeID('collapseAllGroupsEvent'))
@@ -55,7 +57,7 @@ class PsdService:
 
             self.app.ExecuteAction(self.app.StringIDToTypeID('collapseAllGroupsEvent'))
             psd.doc.Save()
-            psd.doc.Close(CloseCode.SILENT.value)
+            psd.doc.Close(cast(CloseCode, CloseCode.SILENT.value))
 
             if Dimensions(dim[0], dim[1]) == main_dim:
                 continue
@@ -88,7 +90,7 @@ class PsdService:
         doc.Layers[0].Copy()
         dims = Dimensions(doc.width, doc.height)
 
-        doc.Close(CloseCode.SILENT.value)
+        doc.Close(cast(CloseCode, CloseCode.SILENT.value))
         return dims
 
     @staticmethod

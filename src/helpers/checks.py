@@ -1,7 +1,10 @@
 '''checking helper functions'''
 
 
-def validate(condition: bool, error: str, panic: bool=True) -> None:
+from typing import Callable
+
+
+def validate(condition: bool | Callable[[], bool], error: str, panic: bool = True) -> bool:
     '''Validate condition'''
     if callable(condition):
         condition = condition()

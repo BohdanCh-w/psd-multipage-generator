@@ -1,5 +1,6 @@
 '''Configuration for application'''
 from pathlib import Path
+from typing import Any, Optional
 
 import yaml
 
@@ -11,11 +12,11 @@ class Config:
     __tpl = "template"
     __prc = "precise"
 
-    def __init__(self, path: str=None):
+    def __init__(self, path: Optional[str] = None):
         if path is None:
-            self.source = None
-            self.destination = None
-            self.template = None
+            self.source = Path(self.__srs)
+            self.destination = Path(self.__dst)
+            self.template = Path(self.__tpl)
             self.precise = False
         else:
             self.read_from_file(path)
@@ -24,7 +25,7 @@ class Config:
         """Read configuration from file specified by path"""
         try:
             with open(path, 'r', encoding='utf-8') as f:
-                data: dict = yaml.safe_load(f)
+                data: dict[str, Any] = yaml.safe_load(f)
                 if 'config' in data:
                     self._parse_config_v1(data)
                 else:
@@ -35,7 +36,7 @@ class Config:
         except KeyError as err:
             raise KeyError("Bad configuration file") from err
 
-    def _parse_config_v1(self, data: dict) -> None:
+    def _parse_config_v1(self, data: dict[str, Any]) -> None:
         data = data['config']
         for key in (self.__srs, self.__tpl, self.__prc):
             if key not in data:
@@ -52,7 +53,7 @@ class Config:
         else:
             self.destination = Path(data[self.__dst])
 
-    def _parse_config_v2(self, data: dict) -> None:
+    def _parse_config_v2(self, data: dict[str, Any]) -> None:
         for key in (self.__srs, self.__tpl, self.__prc):
             if key not in data:
                 raise KeyError(f'{key} pararmeter is missing')

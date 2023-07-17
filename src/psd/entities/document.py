@@ -1,9 +1,11 @@
 '''Photoshop document wrapper'''
+from __future__ import annotations
 import shutil
 from pathlib import Path
-from typing import Self
+from typing import Optional
 from ..service import ApplicationWrapper, Document, Layer
 from .dimensions import Dimensions
+
 
 class PsdDocument:
     '''extened document class'''
@@ -12,14 +14,14 @@ class PsdDocument:
     location: Path
     dimensions: Dimensions
 
-    def __init__(self, doc: Document, sample_layer: Layer = None, location: Path = None):
+    def __init__(self, doc: Document, sample_layer: Layer, location: Path) -> None:
         self.doc = doc
         self.sample_layer = sample_layer
         self.location = location
         self.dimensions = Dimensions(doc.width, doc.height)
 
     @staticmethod
-    def new_from_sample(app: ApplicationWrapper, sample: Path, destination: Path, dimensions: Dimensions=None) -> Self:
+    def new_from_sample(app: ApplicationWrapper, sample: Path, destination: Path, dimensions: Optional[Dimensions] = None) -> PsdDocument:
         '''create new document'''
         shutil.copyfile(sample, destination)
 

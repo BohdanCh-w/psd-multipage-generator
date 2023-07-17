@@ -1,3 +1,3 @@
 '''Photoshop service entities'''
-from .dimensions import Dimensions
-from .document import PsdDocument
+from .dimensions import Dimensions as Dimensions
+from .document import PsdDocument as PsdDocument

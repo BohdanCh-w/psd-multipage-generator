@@ -6,25 +6,10 @@ from .close_code import CloseCode
 
 class Document(Protocol):
     '''Photoshop Document'''
-    @property
-    def width(self) -> float:
-        '''Width of document'''
-        ...
-
-    @property
-    def height(self) -> float:
-        '''Height of document'''
-        ...
-
-    @property
-    def ActiveLayer(self) -> Layer:
-        '''Current active Layer'''
-        ...
-
-    @property
-    def Layers(self) -> list[Layer]:
-        '''List of top level Layers'''
-        ...
+    width: float
+    height: float
+    ActiveLayer: Layer
+    Layers: list[Layer]
 
     def ResizeCanvas(self, width: int, height: int) -> None:
         '''Change document width and height'''

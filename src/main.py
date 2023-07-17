@@ -2,13 +2,15 @@
 
 import sys
 from os import listdir
+from typing import Callable
 from config import Config
 from psd import PsdService, new_photoshop_app
 from helpers import validate
 
+
 def validate_config(config: Config) -> None:
     """Validate configuration check for existance"""
-    requirements = [
+    requirements: list[tuple[bool | Callable[[], bool], str]] = [
         (config.source.exists(), "specified sourse directory does not exist"),
         (config.source.is_dir(), "specified sourse is not a directory"),
         (lambda: len(listdir(config.source)) > 0, "sourse directory is empty"),

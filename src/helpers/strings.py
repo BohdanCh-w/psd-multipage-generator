@@ -1,7 +1,7 @@
 '''strings helper functions'''
 
 
-def compact_str_list(*vals: list[str]) -> str:
+def compact_str_list(*vals: str) -> str:
     '''
     compact list of strings that represent numbers
 
@@ -18,8 +18,8 @@ def compact_str_list(*vals: list[str]) -> str:
         nums = tuple(map(int, vals))
     except ValueError:
         return ','.join(vals)
-    
-    groups = []
+
+    groups: list[tuple[str, ...]] = []
     start = 0
     for i in range(1, len(nums)):
         if nums[i-1] == nums[i] - 1:
